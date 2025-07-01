@@ -1,0 +1,29 @@
+{
+  "name": "osgs-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright install && playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.10.1"
+  },
+  "dependencies": {
+    "@woocommerce/woocommerce-rest-api": "^1.0.1",
+    "@wordpress/e2e-test-utils-playwright": "^1.1.0",
+    "axios": "^1.7.9",
+    "chai": "^5.1.2",
+    "dotenv": "^16.4.7",
+    "faker": "^6.6.6",
+    "google-spreadsheet": "^4.1.4",
+    "googleapis": "^144.0.0",
+    "playwright": "^1.50.1",
+    "soft-assert": "^0.2.7"
+  }
+}

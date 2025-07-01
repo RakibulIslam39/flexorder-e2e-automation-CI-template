@@ -1,0 +1,95 @@
+name: Automation Tests for production site
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+      - master
+  pull_request:
+    branches:
+      - dev
+      - main
+      - master
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Read Node.js version from .nvmrc
+      - name: Read .nvmrc
+        id: nvm
+        run: echo "::set-output name=NODE_VERSION::$(cat .nvmrc)"
+
+      # Use Node.js version from .nvmrc
+      - name: Use Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+
+      # Install dependencies
+      - name: Install Dependencies
+        run: npm install
+
+      # Install Playwright
+      - name: Install Playwright
+        run: npx playwright install
+
+      # Install dotenv
+      - name: Install dotenv
+        run: npm install dotenv
+
+      # Install Googleapis
+      - name: Install Googleapis
+        run: npm install googleapis
+
+      # Install faker
+      - name: Install faker
+        run: npm install faker
+
+      # Install @woocommerce/woocommerce-rest-api
+      - name: Install @woocommerce/woocommerce-rest-api
+        run: npm install @woocommerce/woocommerce-rest-api
+
+      # Install additional dependencies
+      - name: Install chai
+        run: npm install chai
+
+      - name: Install google-spreadsheet
+        run: npm install google-spreadsheet
+
+      - name: Install soft-assert
+        run: npm install soft-assert
+
+      # Run Playwright Tests
+      - name: Run Playwright Tests
+        id: playwright
+        run: |
+          npx playwright test --reporter=html --output=playwright-report
+        continue-on-error: true
+
+      # Send Report via Email (if fail)
+      - name: Send Report via Email
+        uses: dawidd6/action-send-mail@v3
+        with: 
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          from: no-reply@gmail.com  # Use the sender email from GitHub Secrets
+          to: ${{ secrets.SLACK_EMAIL }}  # The recipient email address
+          subject: "Automation Test Report - Playwright"
+          body: |
+            Hi Team,
+
+            The automation tests for the production site have completed. 
+            Please check the attached report for details.
+            
+            $(cat playwright-report/index.html)
+          attachments: |
+            ${{ github.workspace }}/playwright-report/index.html
