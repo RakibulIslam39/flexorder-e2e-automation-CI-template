@@ -23,6 +23,10 @@ class OrderSyncSettingsPage {
             displayOrderPlacement: page.locator('label').filter({ hasText: 'Display order placement' }).locator('input[type="checkbox"]'),
             displayOrderUrl: page.locator('label').filter({ hasText: 'Display Order URL' }).locator('input[type="checkbox"]'),
             syncOrderCustomFields: page.locator('label').filter({ hasText: 'Sync Order Custom Fields' }).locator('input[type="checkbox"]'),
+            separateShippingBillingInfo: page.locator('label', {hasText: 'Show shipping & billing information in separate columns and enable editing'}).locator('input[type="checkbox"]'),
+            displayTransactionID: page.locator('label.osgsw-promo div.ssgs-check input.check[name="transaction_id"]'),
+            separateShowMultipleProductsOfOrder: page.locator('label.osgsw-promo >> input[name="multiple_itmes"]'),
+            allowSortingOnGoogleSheets: page.locator('label').filter({ hasText: 'Allow sorting on Google Sheets' }).locator('div span'),
         };
 
         this.removeAllItemsButton = page.locator('button[title="Remove all items"] span[aria-hidden="true"]');
@@ -72,6 +76,89 @@ class OrderSyncSettingsPage {
     async verifySuccessMessage() {
         await expect(this.successMessage).toBeVisible();
     }
+
+    async disableMakeBillingShippingSeparateToggle() {
+        const checkbox = this.page.locator('input[name="make_billing_shipping_seperate"]');
+        const isChecked = await checkbox.isChecked();
+
+        if (isChecked) {
+            await checkbox.click();
+        } else {
+            console.log('Toggle is already disabled. No action taken.');
+        }
+    }
+
+    async disableSeparateShowMultipleProductsOfOrderToggle() {
+        const checkbox = this.page.locator('label.osgsw-promo >> input[name="multiple_itmes"]');
+        const isChecked = await checkbox.isChecked();
+
+        if (isChecked) {
+            await checkbox.click();
+        } else {
+            console.log('Toggle is already disabled. No action taken.');
+        }
+    }
+
+    async commaSelectInformationSeparator() {
+        await this.page.locator('select[name="osgsw_separator"]').selectOption(',');
+    }
+
+    async semicolonSelectInformationSeparator() {
+        await this.page.locator('select[name="osgsw_separator"]').selectOption(';');
+    }
+
+    async verticalBarSelectInformationSeparator() {
+        await this.page.locator('select[name="osgsw_separator"]').selectOption('|');
+    }
+
+    async orderDateAscending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Date")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'asc');
+    }
+
+    async orderDateDescending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Date")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'desc');
+    }
+
+     async orderPriceAscending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Price")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'asc');
+    }
+    
+    async orderPriceDescending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Price")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'desc');
+    }
+
+    async orderItemsAscending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Items")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'asc');
+    }
+
+    async orderItemsDescending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Items")').click();
+        await this.page.selectOption('select[name="sort_order"]', 'desc');
+    }
+
+     async orderIdAscending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).click();
+        await this.page.selectOption('select[name="sort_order"]', 'asc');
+    }
+
+    async orderIdDescending () {
+        await this.page.locator('div.osgsw_separator_select.form-control').click();
+        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).click();
+        await this.page.selectOption('select[name="sort_order"]', 'desc');
+    }
+
 }
 
 module.exports = { OrderSyncSettingsPage };

@@ -18,7 +18,7 @@ test.describe('Google Sheets to WooCommerce Automation', () => {
         const response = await googleSheetAPI.writeToSheet(SPREADSHEET_ID, RANGE, data);
         console.log('Update response:', response);
 
-        expect(response.updatedRange).toContain(RANGE.split('!')[0]);
-        expect(response.updatedCells).toBe(300);
+        expect.soft(response.updatedRange).toContain(RANGE.split('!')[0]);
+        expect.soft(response.updatedCells).toBe(300);
     });
 });
