@@ -92,8 +92,18 @@ const valueParsers = {
         return parseInt(numericValue[0], 10);
     },
     orderDate: (value) => {
-        const isoString = value.replace(' ', 'T');
+        const parts = value.split(' ');
+        if (parts.length !== 2) throw new Error(`Invalid date format: ${value}`);
+
+        const [datePart, timePart] = parts;
+        const timeParts = timePart.split(':');
+        
+        if (timeParts[0].length === 1) timeParts[0] = '0' + timeParts[0];
+        const normalizedTime = timeParts.join(':');
+
+        const isoString = `${datePart}T${normalizedTime}`;
         const date = new Date(isoString);
+
         if (isNaN(date.getTime())) throw new Error(`Invalid date format: ${value}`);
         return date.getTime();
     },
