@@ -17,7 +17,7 @@ function getExcelColumnLetter(columnIndex) {
     return letter;
 }
 
-async function getCellValueByHeader(spreadsheetId, headerName, maxAttempts = 3, delay = 2000) {
+async function getCellValueByHeader(spreadsheetId, headerName, maxAttempts = 3, delay = 5000) {
     let attempt = 0;
     let lastError = null;
     
@@ -53,7 +53,7 @@ async function getCellValueByHeader(spreadsheetId, headerName, maxAttempts = 3, 
     throw new Error(`Failed to get cell value after ${maxAttempts} attempts. Last error: ${lastError.message}`);
 }
 
-async function waitForHeaderToAppear(spreadsheetId, expectedHeader, timeout = 30000, pollInterval = 2000) {
+async function waitForHeaderToAppear(spreadsheetId, expectedHeader, timeout = 30000, pollInterval = 5000) {
     const startTime = Date.now();
     
     while (Date.now() - startTime < timeout) {
