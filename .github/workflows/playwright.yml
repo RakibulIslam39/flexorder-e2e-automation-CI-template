@@ -1,16 +1,14 @@
-name: Automation Tests for production site
+name: FlexOrder Automation Tests for production site
 
 on:
   push:
     branches:
       - dev
       - main
-      - master
   pull_request:
     branches:
       - dev
       - main
-      - master
 
 jobs:
   run-tests:
