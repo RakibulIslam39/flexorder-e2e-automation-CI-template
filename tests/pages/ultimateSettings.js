@@ -112,50 +112,50 @@ class OrderSyncSettingsPage {
     }
 
     async orderDateAscending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Date")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Date")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'asc');
     }
 
     async orderDateDescending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Date")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Date")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'desc');
     }
 
      async orderPriceAscending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Price")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Price")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'asc');
     }
     
     async orderPriceDescending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Price")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Price")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'desc');
     }
 
     async orderItemsAscending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Items")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Items")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'asc');
     }
 
     async orderItemsDescending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.osgsw-promo:has-text("Order Items")').click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.osgsw-promo:has-text("Order Items")').first().click();
         await this.page.selectOption('select[name="sort_order"]', 'desc');
     }
 
      async orderIdAscending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).first().click();
         await this.page.selectOption('select[name="sort_order"]', 'asc');
     }
 
     async orderIdDescending () {
-        await this.page.locator('div.osgsw_separator_select.form-control').click();
-        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).click();
+        await this.page.locator('div.osgsw_separator_select.form-control').first().click();
+        await this.page.locator('div.hover\\:bg-gray-100', { hasText: 'Order ID' }).first().click();
         await this.page.selectOption('select[name="sort_order"]', 'desc');
     }
 

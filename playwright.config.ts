@@ -1,5 +1,4 @@
 import { defineConfig, devices } from '@playwright/test';
-import * as fs from 'fs';
 import * as path from 'path';
 import dotenv from 'dotenv';
 
@@ -19,26 +18,28 @@ try {
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 5 * 60 * 1000, // 5 minutes per test
-  expect: {
-    timeout: 2 * 60 * 1000, // 2 minutes for expect()
-  },
+  timeout: 300000,
+  expect: { timeout: 10000 },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : 1,
   reporter: [
-    ['html'],
+    ['html', { outputFolder: 'playwright-report' }],
     ['junit', { outputFile: 'test-results/e2e-junit-results.xml' }],
+    ['list'],
   ],
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || process.env.SITE_URL || 'http://localhost:8000',
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     trace: 'on-first-retry',
-    testIdAttribute: 'autocomplete',
-    actionTimeout: 0,
+    testIdAttribute: 'data-testid',
+    viewport: { width: 1920, height: 1080 },
+    actionTimeout: 30000,
+    navigationTimeout: 30000,
+    extraHTTPHeaders: { 'Accept': 'application/json' },
   },
   projects: [
     {
@@ -73,6 +74,7 @@ export default defineConfig({
     },
     */
   ],
+  outputDir: 'test-results/',
   // If you want to run a dev server before tests, uncomment and adjust below:
   /*
   webServer: {

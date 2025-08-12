@@ -1,25 +1,28 @@
 const { expect } = require('@playwright/test');
+const { credentialsManager } = require('../../config/credentials');
 
 class LoginPage {
     constructor(page) {
         this.page = page;
+        this.creds = credentialsManager.getWordPressCredentials();
         this.usernameField = page.getByLabel('Username or Email Address');
         this.passwordField = page.getByLabel('Password', { exact: true });
         this.loginButton = page.getByRole('button', { name: 'Log In' });
-        this.dashboardButton = page.locator("(//div[normalize-space()='Dashboard'])[1]");
+        this.dashboardTitle = page.getByRole('heading', { name: 'Dashboard' });
     }
 
     async navigate() {
-        await this.page.goto(process.env.URL);
+        await this.page.goto(this.creds.url);
     }
 
     async login() {
-        await this.usernameField.fill(process.env.USER_NAME);
-        await this.passwordField.fill(process.env.PASSWORD);
-        await this.loginButton.click();
-
-        await this.dashboardButton.click();
-        await expect(this.page.locator("(//h1[normalize-space()='Dashboard'])[1]")).toBeVisible();
+        await this.usernameField.fill(this.creds.username);
+        await this.passwordField.fill(this.creds.password);
+        await Promise.all([
+            this.page.waitForNavigation({ url: /wp-admin/ }),
+            this.loginButton.click(),
+        ]);
+        await expect(this.dashboardTitle).toBeVisible();
     }
 }
 

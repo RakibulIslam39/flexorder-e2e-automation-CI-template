@@ -1,28 +1,67 @@
 {
-  "name": "osgs-automation",
-  "version": "1.0.0",
+  "name": "flexorder-e2e-automation",
+  "version": "2.0.0",
+  "description": "FlexOrder Plugin E2E Automation with WordPress and WooCommerce Integration",
   "main": "index.js",
   "scripts": {
-    "test": "playwright install && playwright test"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:api": "playwright test --grep @api",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:regression": "playwright test --grep @regression",
+    "install:browsers": "playwright install",
+    "lint": "eslint . --ext .js,.ts",
+    "lint:fix": "eslint . --ext .js,.ts --fix",
+    "build": "npm run lint && npm run test",
+    "clean": "rimraf test-results playwright-report coverage",
+    "clean:all": "rimraf test-results playwright-report coverage node_modules",
+    "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "playwright",
+    "e2e",
+    "testing",
+    "wordpress",
+    "woocommerce",
+    "google-sheets",
+    "automation"
+  ],
+  "author": "FlexOrder Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/flexorder-e2e-automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/flexorder-e2e-automation/issues"
+  },
+  "homepage": "https://github.com/your-org/flexorder-e2e-automation#readme",
   "devDependencies": {
-    "@faker-js/faker": "^9.9.0",
-    "@playwright/test": "^1.50.1",
-    "@types/node": "^22.10.1"
+    "@faker-js/faker": "^8.4.1",
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.5",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "filenamify": "^6.0.0",
+    "husky": "^8.0.3",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@woocommerce/woocommerce-rest-api": "^1.0.2",
     "@wordpress/e2e-test-utils-playwright": "^1.1.0",
-    "axios": "^1.7.9",
-    "chai": "^5.1.2",
-    "dotenv": "^16.4.7",
-    "google-spreadsheet": "^4.1.4",
-    "googleapis": "^144.0.0",
-    "playwright": "^1.50.1",
+    "axios": "^1.6.2",
+    "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
+    "google-spreadsheet": "^4.1.1",
+    "googleapis": "^128.0.0",
     "soft-assert": "^0.2.7"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

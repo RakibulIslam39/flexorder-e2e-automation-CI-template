@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    verbose="true"
+>
+    <php>
+        <!-- Enter the name of your main plugin file here (following Koodimonni approach) -->
+        <env name="PLUGIN_FILE" value="flexorder.php"/>
+    </php>
+    <testsuites>
+        <testsuite name="FlexOrder Plugin Tests">
+            <directory prefix="test-" suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./</directory>
+            <exclude>
+                <directory suffix=".php">./tests/</directory>
+                <directory suffix=".php">./node_modules/</directory>
+                <directory suffix=".php">./vendor/</directory>
+                <directory suffix=".php">./wp-tests/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
+
