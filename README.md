@@ -87,6 +87,8 @@ npm run install:browsers
 
 Create `tests/utilities/.env` file with your credentials:
 
+**Note**: For Google Cloud Service Account credentials, copy `tests/utilities/upload_key.json.example` to `tests/utilities/upload_key.json` and fill in your actual credentials.
+
 ```env
 # WordPress Configuration
 SITE_URL=http://localhost:8000

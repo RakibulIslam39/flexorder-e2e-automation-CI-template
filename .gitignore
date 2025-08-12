@@ -200,6 +200,7 @@ upload_key.json
 service-account-*.json
 credentials.json
 client_secret*.json
+tests/utilities/upload_key.json
 
 # CI/CD
 .github/workflows/*.yml.bak
