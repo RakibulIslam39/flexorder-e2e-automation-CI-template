@@ -16,7 +16,6 @@ async function globalSetup(config: FullConfig) {
     // Optional: Store authentication state for reuse
     const browser = await chromium.launch();
     const context = await browser.newContext();
-    const page = await context.newPage();
     
     // You can add global authentication here if needed
     // For example, login to WordPress admin once and reuse the session

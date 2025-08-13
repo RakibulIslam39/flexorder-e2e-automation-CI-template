@@ -98,7 +98,7 @@ class OrderStatusUpdater {
         try {
             const status = newStatus.replace('wc-', '');
             const response = await this.api.put(`orders/${orderId}`, {
-                status: status
+                status
             });
             console.log(`Order ${orderId} status updated in WooCommerce to ${status}`);
             return response.data;

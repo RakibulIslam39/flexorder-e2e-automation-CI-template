@@ -51,7 +51,7 @@ class CredentialsManager {
       ['USER_NAME', this.wordpress.username],
       ['PASSWORD', this.wordpress.password],
     ];
-    const missing = required.filter(([_, v]) => !v).map(([k]) => k);
+    const missing = required.filter(([, v]) => !v).map(([k]) => k);
     if (missing.length) {
       throw new Error(`Missing required credentials: ${missing.join(', ')}`);
     }
