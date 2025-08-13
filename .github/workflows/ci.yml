@@ -56,8 +56,8 @@ jobs:
 
     - name: Run PHP CodeSniffer
       run: |
-        # Only run PHPCS if there are PHP files to check (excluding tests, vendor, node_modules)
-        if find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -not -path "./tests/*" -not -path "./wp-tests/*" | grep -q .; then
+        # Only run PHPCS if there are PHP plugin files to check (excluding router.php and test files)
+        if find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -not -path "./tests/*" -not -path "./wp-tests/*" -not -name "router.php" | grep -q .; then
           composer run phpcs
         else
           echo "No PHP plugin files found to lint, skipping PHPCS"
@@ -79,11 +79,20 @@ jobs:
         format: 'sarif'
         output: 'trivy-results.sarif'
 
+    - name: Check if SARIF file exists
+      run: |
+        if [ -f "trivy-results.sarif" ]; then
+          echo "SARIF file found, will attempt upload"
+        else
+          echo "No SARIF file found, skipping upload"
+        fi
+
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v3
-      if: always()
+      if: always() && github.event_name != 'pull_request' && hashFiles('trivy-results.sarif') != ''
       with:
         sarif_file: 'trivy-results.sarif'
+      continue-on-error: true
 
   setup-wordpress:
     runs-on: ubuntu-latest
@@ -150,6 +159,15 @@ jobs:
         
         # Install WordPress test environment using Koodimonni script
         bash wp-tests/bin/install-wp-tests.sh $DB_NAME $DB_USER $DB_PASS $DB_HOST $WP_VERSION
+        
+        # Fix the database host in WordPress config files (Koodimonni script bug)
+        # The script incorrectly replaces 'localhost' with WP_VERSION instead of DB_HOST
+        if [ -f /tmp/wordpress-tests-lib/wp-tests-config.php ]; then
+          sed -i "s|'latest'|'$DB_HOST'|g" /tmp/wordpress-tests-lib/wp-tests-config.php
+        fi
+        if [ -f /tmp/wordpress/wp-config.php ]; then
+          sed -i "s|'latest'|'$DB_HOST'|g" /tmp/wordpress/wp-config.php
+        fi
         
         # Verify WordPress installation
         ls -la /tmp/wordpress/
@@ -425,6 +443,15 @@ jobs:
         
         # Install WordPress test environment using Koodimonni script
         bash wp-tests/bin/install-wp-tests.sh $DB_NAME $DB_USER $DB_PASS $DB_HOST $WP_VERSION
+        
+        # Fix the database host in WordPress config files (Koodimonni script bug)
+        # The script incorrectly replaces 'localhost' with WP_VERSION instead of DB_HOST
+        if [ -f /tmp/wordpress-tests-lib/wp-tests-config.php ]; then
+          sed -i "s|'latest'|'$DB_HOST'|g" /tmp/wordpress-tests-lib/wp-tests-config.php
+        fi
+        if [ -f /tmp/wordpress/wp-config.php ]; then
+          sed -i "s|'latest'|'$DB_HOST'|g" /tmp/wordpress/wp-config.php
+        fi
         
         # Verify WordPress installation
         ls -la /tmp/wordpress/

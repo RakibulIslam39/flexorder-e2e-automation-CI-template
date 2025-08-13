@@ -15,6 +15,9 @@ This document provides comprehensive setup instructions for the FlexOrder WordPr
 - Added conditional PHPCS execution when no PHP files are present
 - Added WP-CLI and jq installation for JSON parsing
 - Added WooCommerce CLI extension for API commands
+- Fixed Koodimonni script database host bug by post-processing config files
+- Added better error handling for security scan uploads
+- Created test PHP file to verify PHPCS functionality
 
 ## Prerequisites
 
