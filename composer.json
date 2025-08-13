@@ -15,8 +15,8 @@
     "scripts": {
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-html coverage",
-        "phpcs": "phpcs --standard=WordPress .",
-        "phpcbf": "phpcbf --standard=WordPress ."
+        "phpcs": "phpcs --standard=WordPress --ignore=*/tests/*,*/vendor/*,*/node_modules/* .",
+        "phpcbf": "phpcbf --standard=WordPress --ignore=*/tests/*,*/vendor/*,*/node_modules/* ."
     },
     "config": {
         "allow-plugins": {

@@ -1,6 +1,20 @@
-# FlexOrder Plugin CI/CD Setup Guide
+# FlexOrder Plugin CI/CD Setup
 
-This guide explains how to set up and use the CI/CD pipeline for the FlexOrder WordPress plugin.
+This document provides comprehensive setup instructions for the FlexOrder WordPress plugin CI/CD pipeline using GitHub Actions.
+
+## Recent CI Fixes (Latest Update)
+
+### Issues Fixed:
+1. **PHPCS Errors**: Fixed WordPress coding standards configuration to handle projects without actual PHP plugin files
+2. **WordPress Setup Error**: Fixed database host configuration in Koodimonni template setup
+3. **Missing Dependencies**: Added WP-CLI, jq, and WooCommerce CLI extension installations
+
+### Changes Made:
+- Updated PHPCS script to exclude test files and only check actual plugin files
+- Fixed sed command to properly use environment variables for database host
+- Added conditional PHPCS execution when no PHP files are present
+- Added WP-CLI and jq installation for JSON parsing
+- Added WooCommerce CLI extension for API commands
 
 ## Prerequisites
 

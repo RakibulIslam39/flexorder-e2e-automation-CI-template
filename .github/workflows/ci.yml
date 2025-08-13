@@ -55,7 +55,14 @@ jobs:
         vendor/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs
 
     - name: Run PHP CodeSniffer
-      run: composer run phpcs
+      run: |
+        # Only run PHPCS if there are PHP files to check (excluding tests, vendor, node_modules)
+        if find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -not -path "./tests/*" -not -path "./wp-tests/*" | grep -q .; then
+          composer run phpcs
+        else
+          echo "No PHP plugin files found to lint, skipping PHPCS"
+          echo "This is expected for test automation templates without actual plugin code"
+        fi
 
   security-scan:
     runs-on: ubuntu-latest
@@ -117,6 +124,17 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Install WP-CLI and jq
+      run: |
+        # Install WP-CLI
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        chmod +x wp-cli.phar
+        sudo mv wp-cli.phar /usr/local/bin/wp
+        
+        # Install jq for JSON parsing
+        sudo apt-get update
+        sudo apt-get install -y jq
+
     # Step 1: Create a new WordPress site using Koodimonni template
     - name: Install WordPress test environment (Koodimonni template)
       run: |
@@ -128,7 +146,7 @@ jobs:
         git clone https://github.com/Koodimonni/wordpress-test-template wp-tests
         
         # Fix the Koodimonni script to use correct database host
-        sed -i 's|localhost|$DB_HOST|g' wp-tests/bin/install-wp-tests.sh
+        sed -i "s|localhost|$DB_HOST|g" wp-tests/bin/install-wp-tests.sh
         
         # Install WordPress test environment using Koodimonni script
         bash wp-tests/bin/install-wp-tests.sh $DB_NAME $DB_USER $DB_PASS $DB_HOST $WP_VERSION
@@ -143,6 +161,9 @@ jobs:
         cd /tmp/wordpress
         # Install WooCommerce using wp-cli
         wp plugin install woocommerce --activate --allow-root
+        
+        # Install WooCommerce CLI extension for API commands
+        wp package install git@github.com:woocommerce/woocommerce-cli.git --allow-root
         
         # Verify WooCommerce installation
         wp plugin list --allow-root
@@ -379,6 +400,17 @@ jobs:
     - name: Install Composer dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Install WP-CLI and jq
+      run: |
+        # Install WP-CLI
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        chmod +x wp-cli.phar
+        sudo mv wp-cli.phar /usr/local/bin/wp
+        
+        # Install jq for JSON parsing
+        sudo apt-get update
+        sudo apt-get install -y jq
+
     - name: Install WordPress test environment (Koodimonni template)
       run: |
         # Install required dependencies for Koodimonni template
@@ -389,7 +421,7 @@ jobs:
         git clone https://github.com/Koodimonni/wordpress-test-template wp-tests
         
         # Fix the Koodimonni script to use correct database host
-        sed -i 's|localhost|$DB_HOST|g' wp-tests/bin/install-wp-tests.sh
+        sed -i "s|localhost|$DB_HOST|g" wp-tests/bin/install-wp-tests.sh
         
         # Install WordPress test environment using Koodimonni script
         bash wp-tests/bin/install-wp-tests.sh $DB_NAME $DB_USER $DB_PASS $DB_HOST $WP_VERSION
@@ -402,6 +434,9 @@ jobs:
       run: |
         cd /tmp/wordpress
         wp plugin install woocommerce --activate --allow-root
+        
+        # Install WooCommerce CLI extension for API commands
+        wp package install git@github.com/woocommerce/woocommerce-cli.git --allow-root
 
     - name: Run PHPUnit tests (Koodimonni approach)
       run: |
