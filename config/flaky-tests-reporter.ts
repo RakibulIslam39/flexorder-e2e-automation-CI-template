@@ -31,7 +31,7 @@
          } catch ( err ) {
              if (
                  err instanceof Error &&
-                 ( err as NodeJS.ErrnoException ).code === 'EEXIST'
+                 ( err as any ).code === 'EEXIST'
              ) {
                  // Ignore the error if the directory already exists.
              } else {

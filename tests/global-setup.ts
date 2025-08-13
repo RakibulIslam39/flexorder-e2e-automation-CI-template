@@ -1,7 +1,7 @@
 import { chromium, FullConfig } from '@playwright/test';
 import { credentialsManager } from '../config/credentials';
 
-async function globalSetup(config: FullConfig) {
+async function globalSetup(_config: FullConfig) {
   console.log('🔧 Setting up global test environment...');
   
   try {

@@ -113,6 +113,10 @@ jobs:
 
     - name: Install WordPress test environment (Koodimonni template)
       run: |
+        # Install required dependencies for Koodimonni template
+        sudo apt-get update
+        sudo apt-get install -y subversion
+        
         # Clone Koodimonni WordPress test template
         git clone https://github.com/Koodimonni/wordpress-test-template wp-tests
         
@@ -360,6 +364,10 @@ jobs:
 
     - name: Install WordPress test environment (Koodimonni template)
       run: |
+        # Install required dependencies for Koodimonni template
+        sudo apt-get update
+        sudo apt-get install -y subversion
+        
         # Clone Koodimonni WordPress test template
         git clone https://github.com/Koodimonni/wordpress-test-template wp-tests
         

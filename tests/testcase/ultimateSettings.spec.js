@@ -98,7 +98,7 @@ const valueParsers = {
         const [datePart, timePart] = parts;
         const timeParts = timePart.split(':');
         
-        if (timeParts[0].length === 1) timeParts[0] = '0' + timeParts[0];
+        if (timeParts[0].length === 1) timeParts[0] = `0${timeParts[0]}`;
         const normalizedTime = timeParts.join(':');
 
         const isoString = `${datePart}T${normalizedTime}`;

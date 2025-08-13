@@ -3,7 +3,7 @@ const { CreateOrder, ordersData } = require("../pages/createWcOrder");
 
 test.describe("WooCommerce Order Creation and Validation on Google Sheets", () => {
     let createOrderInstance;
-    let createdOrders = [];
+    const createdOrders = [];
 
     test.beforeAll(() => {
         createOrderInstance = new CreateOrder("./tests/utilities/upload_key.json");
